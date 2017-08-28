@@ -1,7 +1,7 @@
-#include "src/Gameplay.h"
+#include "src/Game.h"
 
 int main() {
-    Gameplay game;
-    game.start();
+    Game game(800, 600, "Blackjack");
+    game.Run();
     return 0;
 }

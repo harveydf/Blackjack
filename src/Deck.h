@@ -1,25 +1,30 @@
 #ifndef BLACKJACK_DECK_H
 #define BLACKJACK_DECK_H
 
-#include <iostream>
-#include <array>
 #include <random>
-#include <cassert>
+#include <vector>
+#include <iostream>
 #include "Card.h"
 
 class Deck {
-private:
-    std::array<Card, 52> m_deck;
-    int m_cardIndex;
-
-    static void swapCard(Card &a, Card &b);
-    static int getRandomNumber(int min, int max);
-
 public:
     Deck();
-    void printDeck();
-    void shuffleDeck();
-    const Card &dealCard();
+    void Initialize(sf::Texture &card_texture);
+    Card *DealCard(sf::Vector2f position);
+    sf::Vector2i GetCardSize() const;
+    void Shuffle();
+
+private:
+    const sf::Vector2i kCardSize{34, 48};
+    const int kLeftOffset = 2;
+    const std::array<int, 4> kTopOffset{81, 181, 282, 383};
+    const sf::Vector2f kScale{2.0f, 2.0f};
+
+    std::vector<Card> cards_;
+    int card_index_{0};
+
+    void SwapCards(Card &a, Card &b);
+    int GetRandomNumber(int min, int max);
 };
 
 

@@ -3,7 +3,7 @@ project(Blackjack)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp src/Card.cpp src/Card.h src/Deck.cpp src/Deck.h src/Gameplay.cpp src/Gameplay.h)
+set(SOURCE_FILES main.cpp src/Game.cpp src/Game.h src/AssetsManager.cpp src/AssetsManager.h src/Card.cpp src/Card.h src/Deck.cpp src/Deck.h src/UIManager.cpp src/UIManager.h)
 add_executable(Blackjack ${SOURCE_FILES})
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 
