@@ -1,42 +1,44 @@
 #ifndef BLACKJACK_CARD_H
 #define BLACKJACK_CARD_H
 
-#include <iostream>
+#include <array>
+#include <SFML/Graphics.hpp>
 
-class Card {
+class Card: public sf::Drawable {
 public:
-    enum CardRank {
-        RANK_2,
-        RANK_3,
-        RANK_4,
-        RANK_5,
-        RANK_6,
-        RANK_7,
-        RANK_8,
-        RANK_9,
-        RANK_10,
-        RANK_JACK,
-        RANK_QUEEN,
-        RANK_KING,
-        RANK_ACE,
-        MAX_RANKS,
+    enum Ranks {
+        kRankAce,
+        kRank2,
+        kRank3,
+        kRank4,
+        kRank5,
+        kRank6,
+        kRank7,
+        kRank8,
+        kRank9,
+        kRank10,
+        kRankJack,
+        kRankQueen,
+        kRankKing,
     };
-    enum CardSuit {
-        CLUBS,
-        DIAMONDS,
-        HEARTS,
-        SPADES,
-        MAX_SUITS,
+    enum Suits {
+        kSuitClubs,
+        kSuitDiamonds,
+        kSuitSpades,
+        kSuitHearts,
     };
+
+    Card(Ranks rank, Suits suit, const sf::Texture &texture, sf::IntRect int_rect,
+         sf::Vector2f scale);
+    int GetValue() const;
+    void SetPosition(float x, float y);
 
 private:
-    CardRank m_rank;
-    CardSuit m_suit;
+    sf::Sprite sprite_;
+    Ranks rank_;
+    Suits suits_;
 
-public:
-    explicit Card(CardRank rank=RANK_ACE, CardSuit suit=HEARTS);
-    int getValue() const;
-    void print() const;
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
 
 
