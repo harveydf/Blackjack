@@ -23,15 +23,15 @@ Card *Deck::DealCard(const sf::Vector2f position) {
 }
 
 void Deck::Shuffle() {
-    for(Card &a: cards_) {
-        int index = GetRandomNumber(0, 51);
-        SwapCards(a, cards_[index]);
+    for (int index = 0; index < 52; ++index) {
+        int random = GetRandomNumber(0, 51);
+        SwapCards(cards_[index], cards_[random]);
     }
     card_index_ = 0;
 }
 
 void Deck::SwapCards(Card &a, Card &b) {
-    const auto &tmp = a;
+    const auto tmp = a;
     a = b;
     b = tmp;
 }
