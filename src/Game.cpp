@@ -78,8 +78,17 @@ sf::Vector2f Game::GetDealerPosition() const {
 
 void Game::DealDealerCard() {
     Card *card = deck_.DealCard(GetDealerPosition());
-    dealer_score_ += card->GetValue();
+    const int value = card->GetValue();
+
+    if (value == 11)
+        dealer_aces_++;
+
+    UpdateDealerScore(value);
     dealer_cards_.push_back(card);
+}
+
+void Game::UpdateDealerScore(int score) {
+    dealer_score_ += score;
     ui_manager_.SetDealerScore(std::to_string(dealer_score_));
     should_draw_ = true;
 }
@@ -91,8 +100,17 @@ sf::Vector2f Game::GetPlayerPosition() const {
 
 void Game::DealPlayerCard() {
     Card *card = deck_.DealCard(GetPlayerPosition());
-    player_score_ += card->GetValue();
+    const int value = card->GetValue();
+
+    if (value == 11)
+        player_aces_++;
+
+    UpdatePlayerScore(value);
     player_cards_.push_back(card);
+}
+
+void Game::UpdatePlayerScore(const int score) {
+    player_score_ += score;
     ui_manager_.SetPlayerScore(std::to_string(player_score_));
     should_draw_ = true;
 }
@@ -100,9 +118,11 @@ void Game::DealPlayerCard() {
 void Game::Reset() {
     deck_.Shuffle();
     dealer_score_ = 0;
+    dealer_aces_ = 0;
     dealer_cards_.clear();
 
     player_score_ = 0;
+    player_aces_ = 0;
     player_cards_.clear();
 
     DealDealerCard();
@@ -116,14 +136,24 @@ void Game::Reset() {
 
 void Game::IsPlaying() {
     if (player_score_ > 21 && state_ == kStatePlaying) {
-        Finish();
+        if (player_aces_ == 0)
+            Finish();
+        else {
+            UpdatePlayerScore(-10);
+            player_aces_--;
+        }
     }
 
     if (turn_ == kTurnDealer && state_ == kStatePlaying) {
         if (dealer_score_ < 17 && dealer_score_ < player_score_) {
             DealDealerCard();
         } else {
-            Finish();
+            if (dealer_aces_ == 0)
+                Finish();
+            else {
+                UpdateDealerScore(-10);
+                dealer_aces_--;
+            }
         }
     }
 }
